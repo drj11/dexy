@@ -242,18 +242,26 @@ class KshInteractiveStrictFilter(PexpectReplFilter):
     EXECUTABLE = "ksh -i -e"
     INPUT_EXTENSIONS = [".txt", ".sh"]
     OUTPUT_EXTENSIONS = ['.sh-session']
-    INITIAL_PROMPT = "^(#|\$)"
-    PROMPTS = ["$", "#"]
-    TRIM_PROMPT = "\$|#"
+    PROMPT_REGEX = r"\d*(#|\$)"
+    INITIAL_PROMPT = PROMPT_REGEX
+    TRIM_PROMPT = r"\d*\$|#"
     PS1 = "$ "
     # TODO Fix hanging on # comments in code
 
-class KshInteractiveFilter(PexpectReplFilter):
+class KshInteractiveFilter(KshInteractiveStrictFilter):
     """
     Runs ksh. Use to run bash scripts. Does not set -e.
     """
     ALIASES = ['shintp']
     EXECUTABLE = "ksh -i"
+
+class KshInteractiveNumberedFilter(KshInteractiveStrictFilter):
+    """
+    Runs ksh.  Numbers each prompt.
+    """
+    ALIASES = ['shnint']
+    PS1 = "!$ "
+    EXECUTABLE = "ksh -i "
 
 class ClojureInteractiveFilter(PexpectReplFilter):
     """
