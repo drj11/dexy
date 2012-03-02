@@ -263,7 +263,7 @@ class KshInteractiveStrictFilter(PexpectReplFilter):
     OUTPUT_EXTENSIONS = ['.sh-session']
     PROMPT_REGEX = r"\d*(#|\$)"
     INITIAL_PROMPT = PROMPT_REGEX
-    TRIM_PROMPT = r"\d*\$|#"
+    TRIM_PROMPT = PROMPT_REGEX
     PS1 = "$ "
     # TODO Fix hanging on # comments in code
 
@@ -279,9 +279,6 @@ class KshInteractiveNumberedPromptFilter(KshInteractiveFilter):
     Runs ksh. Use to run bash scripts. Does not set -e. Prompts are numbered.
     """
     ALIASES = ['shintpn']
-    PROMPT_REGEX = "\d*(#|\$)"
-    INITIAL_PROMPT = PROMPT_REGEX
-    TRIM_PROMPT = r"\d*(\$|#)"
     PS1 = "!$ "
     ENV = { 'HISTFILE' : '' }
 
