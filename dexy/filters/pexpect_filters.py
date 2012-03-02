@@ -267,6 +267,20 @@ class KshInteractiveStrictFilter(PexpectReplFilter):
     PS1 = "$ "
     # TODO Fix hanging on # comments in code
 
+class BashInteractiveStrictFilter(PexpectReplFilter):
+    """
+    Runs bash. Use to run bash scripts.
+    """
+    ALIASES = ['basher']
+    EXECUTABLE = "bash --norc -i"
+    INPUT_EXTENSIONS = [".txt", ".sh"]
+    OUTPUT_EXTENSIONS = ['.sh-session']
+    PROMPT_REGEX = r"\d*[#$]"
+    INITIAL_PROMPT = PROMPT_REGEX
+    TRIM_PROMPT = PROMPT_REGEX
+    PS1 = "$ "
+    # TODO Fix hanging on # comments in code
+
 class KshInteractiveFilter(KshInteractiveStrictFilter):
     """
     Runs ksh. Use to run bash scripts. Does not set -e.
@@ -281,6 +295,7 @@ class KshInteractiveNumberedPromptFilter(KshInteractiveFilter):
     ALIASES = ['shintpn']
     PS1 = "!$ "
     ENV = { 'HISTFILE' : '' }
+
 
 class ClojureInteractiveFilter(PexpectReplFilter):
     """
