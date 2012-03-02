@@ -253,35 +253,33 @@ class PhpInteractiveFilter(PexpectReplFilter):
     PROMPTS = ['php > ']
     TRIM_PROMPT = "php > "
 
-class KshInteractiveStrictFilter(PexpectReplFilter):
+class AbstractShell(PexpectReplFilter):
+    """Subclass for each sort of shell (bash/ksh/dash/etc)."""
+    ALIASES = None
+    EXECUTABLE = None
+    INPUT_EXTENSIONS = [".txt", ".sh"]
+    OUTPUT_EXTENSIONS = ['.sh-session']
+    PROMPT_REGEX = r"\d*[#$]"
+    INITIAL_PROMPT = PROMPT_REGEX
+    TRIM_PROMPT = PROMPT_REGEX
+    PS1 = "$ "
+    # TODO Fix hanging on # comments in code
+
+class KshInteractiveStrictFilter(AbstractShell):
     """
     Runs ksh. Use to run bash scripts.
     """
     ALIASES = ['shint']
     EXECUTABLE = "ksh -i -e"
-    INPUT_EXTENSIONS = [".txt", ".sh"]
-    OUTPUT_EXTENSIONS = ['.sh-session']
-    PROMPT_REGEX = r"\d*[#$]"
-    INITIAL_PROMPT = PROMPT_REGEX
-    TRIM_PROMPT = PROMPT_REGEX
-    PS1 = "$ "
-    # TODO Fix hanging on # comments in code
 
-class BashInteractiveStrictFilter(PexpectReplFilter):
+class BashInteractiveFilter(AbstractShell):
     """
     Runs bash. Use to run bash scripts.
     """
     ALIASES = ['basher']
     EXECUTABLE = "bash --norc -i"
-    INPUT_EXTENSIONS = [".txt", ".sh"]
-    OUTPUT_EXTENSIONS = ['.sh-session']
-    PROMPT_REGEX = r"\d*[#$]"
-    INITIAL_PROMPT = PROMPT_REGEX
-    TRIM_PROMPT = PROMPT_REGEX
-    PS1 = "$ "
-    # TODO Fix hanging on # comments in code
 
-class KshInteractiveFilter(KshInteractiveStrictFilter):
+class KshInteractiveFilter(AbstractShell):
     """
     Runs ksh. Use to run bash scripts. Does not set -e.
     """
