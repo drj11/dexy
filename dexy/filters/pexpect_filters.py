@@ -261,7 +261,7 @@ class KshInteractiveStrictFilter(PexpectReplFilter):
     EXECUTABLE = "ksh -i -e"
     INPUT_EXTENSIONS = [".txt", ".sh"]
     OUTPUT_EXTENSIONS = ['.sh-session']
-    PROMPT_REGEX = r"\d*(#|\$)"
+    PROMPT_REGEX = r"\d*[#$]"
     INITIAL_PROMPT = PROMPT_REGEX
     TRIM_PROMPT = PROMPT_REGEX
     PS1 = "$ "
