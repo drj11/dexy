@@ -441,11 +441,13 @@ re.compile: %s""" % (args['except'], e))
 
         # Determine dependencies
         total_dependencies = 0
+        self.log.debug("Finalizing dependencies between documents...")
         for doc in self.members.values():
             doc.finalize_inputs(self.members)
             total_dependencies += len(doc.inputs)
             for input_doc in doc.inputs:
                 depend(doc, input_doc)
+            self.log.debug(doc.key())
 
         if len(self.args['run']) > 0:
             # Only run the specified document, and its dependencies.
